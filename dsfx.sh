@@ -2,7 +2,7 @@
 #
 
 # dsfx.sh - a Debugging Script For things relating to Xorg
-VERSION=' version 0.4.2 ' 
+VERSION=' version 0.5.0 ' 
 # Gathers hardware information and collects all relevant logs
 # to the folder ~/Xlogs_<date>.'
 # Then tars everything to a single <date>_xlogs.txz file to the ~-folder.
@@ -22,40 +22,43 @@ while (($# > 0)); do
 	elif [ "$1" == "-t" -o "-tips" == "$1" -o "$1" == "--tips" ]; then
 		shift;
 
-echo 'Some tips for getting Xorg running correctly:    '
-echo ' '
-echo 'if X is not running on the computer'
-echo '           xrandr will give an error "Cant open display"'
-echo '           Try starting X with >startx '
-echo ' '
-echo 'Is Xorg installed on the system?'
-echo '           If not install with'
-echo '            #pkg install xorg'
-echo ' '
-echo 'No config for Xorg?'
-echo '           Create a basic config with'
-echo '            >Xorg -configure'
-echo ''
-echo '           afterwards you may want to edit it a bit'
-echo '           eg. adding this to your xorg.conf'
-echo '           allows killing Xorg with ctrl+alt+del'
-echo ' '
-echo '			Section    "ServerFlags" '
-echo '		  	Option     "DontZap" "false"'
-echo '      		EndSection'
-echo ' '
-echo 'if getting complaints about drm permissions '
-echo '  e.g. libGL error: failed to open drm device: Permission denied'
-echo '       libGL error: failed to load driver: <driver>'
-echo 'fix with adding your username to the video group'
-echo ' >pw groupmod video -m <your username>'
-echo ' '
+TIPS=$"
+Some tips for getting Xorg running correctly:    
+
+if X is not running on the computer
+           xrandr will give an error \"Cant open display\"
+           Try starting X with >startx 
+ 
+Is Xorg installed on the system?
+           If not install with
+            >pkg install xorg
+ 
+No config for Xorg?
+           Create a basic config with
+            >Xorg -configure
+
+           afterwards you may want to edit it a bit
+           eg. adding this to your xorg.conf
+           allows killing Xorg with ctrl+alt+del
+
+			Section    \"ServerFlags\" 
+		  	Option     \"DontZap\" \"false\"
+      		EndSection
+
+if getting complaints about drm permissions 
+  e.g. libGL error: failed to open drm device: Permission denied
+       libGL error: failed to load driver: <driver>
+fix with adding your username to the video group
+ >pw groupmod video -m <your username> 
+"
+ 
+printf '%s' "$TIPS"
 	exit;
 
 	elif [ "$1" == "-h" -o "-help" == "$1" -o "$1" == "--help" ]; then
 		shift;
 	
-echo "
+HELP=$"
 dsfx.sh - a Debugging Script For things relating to Xorg 
 version $VERSION
 
@@ -84,6 +87,7 @@ Available arguments:
 -V		--Version
 --Version	Prints the script version
 "
+printf '%s' "$HELP"
 		exit;
 
 	elif [ "$1" == "-u" -o "-usecases" == "$1" -o "$1" == "--usecases" ]; then
@@ -131,8 +135,9 @@ Arto Pekkanen\'s test scenario 4#
 		echo 'comment argument is ' $COMMENT
 		shift;
 	else
-		#if argument is any other, skip it.
-		shift;
+		#if argument is anything else, echo help and exit.
+		echo $HELP
+		exit;
 	fi
 done
 
