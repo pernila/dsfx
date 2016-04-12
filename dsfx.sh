@@ -2,7 +2,7 @@
 #
 
 # dsfx.sh - a Debugging Script For things relating to Xorg
-VERSION=' version 0.5.0 ' 
+VERSION=' version 0.5.1 ' 
 # Gathers hardware information and collects all relevant logs
 # to the folder ~/Xlogs_<date>.'
 # Then tars everything to a single <date>_xlogs.txz file to the ~-folder.
@@ -70,7 +70,7 @@ Available arguments:
 -a		--add-comment
 --add-comment	Add a custom comment to the txz file.
 		e.g. -a kernel_r296116 would create:
-		<date>_xlogs_kernel_r296116.txz
+		"$TIMESTAMP"_xlogs_kernel_r296116.txz
 
 -u		--usecases
 --usecases	Prints out use cases to stress the GPU and it's driver
@@ -299,9 +299,9 @@ if [ "$DEBUG" = ON ]; then
 echo 'devinf -vr output logged '
 fi
 
-cat /var/log/messages > $LOGS/var_log_messages.log  2>&1
+cat /var/log/messages > $LOGS/var_log_messages.log 2>&1
 echo 'grep ":\[drm\[:]]"' > $LOGS/var_log_messages_grep_drm.log 2>&1
-cat /var/log/messages |grep ":\[drm\[:]]" >> $LOGS/var_log_messages_grep_drm.log 2>&1
+cat /var/log/messages 2>&1 | grep ":\[drm\[:]]" >> $LOGS/var_log_messages_grep_drm.log 2>&1
 if [ "$DEBUG" = ON ]; then
 echo '/var/log/messages logged '
 fi
@@ -362,7 +362,7 @@ else
 	TARVAR="$TIMESTAMP"_xlogs.txz
 fi
 
-tar -cJf $TARVAR -C $LOGS ~/Xlogs 2>&1
+tar -cJf $TARVAR -C $LOGS ~/Xlogs 2> /dev/null
 
 if [ "$DEBUG" = ON ]; then
 echo 'Done tarring the data'
@@ -377,5 +377,3 @@ echo '  If the driver is working in normal usage'
 echo '  Try doing something more demanding'
 fi
 
-#TODO tar error
-#TODO cat var
