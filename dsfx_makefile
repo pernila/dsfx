@@ -2,7 +2,7 @@
 # $FreeBSD$
 
 PORTNAME=	dsfx
-PORTVERSION=	4.1
+PORTVERSION=	5.1
 PORTREVISION=	1
 CATEGORIES=	x11 devel x11
 XORG_CAT=	util
@@ -21,7 +21,7 @@ EXTRACT_SUFX=	.tar.Z
 MAINTAINER=	tommi.pernila+dsfx@iki.fi
 COMMENT=	Debugging script for the X Window System
 
-NO_ARCH= yes
+NO_ARCH=	yes
 
 LISENCE=	BSD
 
